@@ -8,8 +8,8 @@ REQUIRED:
 - [x] 修改package.json
 - [x] git commitlint
 - [x] 推上 repo
-- [ ] jsconfig.json/tsconfig.json(
-- [ ] .vscode setting
+- [ ] jsconfig.json/tsconfig.json
+- [x] .vscode setting
 - [ ] babel.config.js
 - [x] .prettier
 - [x] stylelint
