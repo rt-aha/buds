@@ -13,7 +13,7 @@ REQUIRED:
 - [ ] babel.config.js
 - [x] .prettier
 - [x] stylelint
-- [ ] .browserslintrc
+- [x] .browserslintrc
 - [ ] .editorconfig
 - [ ] gitlab-ci.yml
 - [ ] addon: a node server(進專案拉repo，然後移除該資料夾.git)
@@ -31,6 +31,7 @@ yarn add -D stylelint-config-sass-guidelines
 yarn add -D stylelint-config-standard
 yarn add -D stylelint-order
 yarn add -D stylelint-scss
+yarn add -D stylelint-no-unsupported-browser-features
 ```
 package.json script 下新增
 `"fix:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix"`

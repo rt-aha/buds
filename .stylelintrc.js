@@ -1,7 +1,15 @@
 const stylelintConfig = {
   extends: ['stylelint-config-standard', 'stylelint-config-prettier', 'stylelint-config-sass-guidelines'],
-  plugins: ['stylelint-scss', 'stylelint-order'],
+  plugins: ['stylelint-scss', 'stylelint-order', 'stylelint-no-unsupported-browser-features'],
   rules: {
+    'plugin/no-unsupported-browser-features': [
+      true,
+      {
+        browsers: ['> 1%', 'Last 2 versions'],
+        ignore: ['rem'],
+        ignorePartialSupport: true,
+      },
+    ],
     'max-nesting-depth': null,
     'no-empty-source': null,
     'no-descending-specificity': null,
