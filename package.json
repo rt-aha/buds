@@ -35,12 +35,12 @@
     "shelljs": "^0.8.4",
     "write-json-file": "^4.3.0"
   },
+  "devDependencies": {
+    "husky": "^6.0.0"
+  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
     }
-  },
-  "devDependencies": {
-    "husky": "^6.0.0"
   }
 }
