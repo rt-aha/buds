@@ -17,7 +17,10 @@ const types = [
 module.exports = {
   // extends: ['@commitlint/config-conventional'],
   parserPreset: {
-    headerPattern: /^\[test\] .*$/
+    parserOpts: {
+      headerPattern: /^\[test\] .*$/,
+      // headerCorrespondence: ['type'],
+    }
   },
   rules: {
     'type-enum': [2, 'always', types],
