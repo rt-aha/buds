@@ -1,4 +1,4 @@
-const type = [
+const types = [
   'feat',
   'style',
   'fix',
@@ -10,8 +10,8 @@ const type = [
 ]
 
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  // extends: ['@commitlint/config-conventional'],
   reles: {
-    'type-enum': [2, 'always', types]
+    'type-enum': [2, 'always', types],
   }
 };
