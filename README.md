@@ -12,6 +12,7 @@ REQUIRED:
 - [ ] .vscode setting
 - [ ] babel.config.js
 - [x] .prettier
+- [x] stylelint
 - [ ] .browserslintrc
 - [ ] .editorconfig
 - [ ] gitlab-ci.yml
