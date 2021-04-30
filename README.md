@@ -33,7 +33,7 @@ yarn add -D stylelint-order
 yarn add -D stylelint-scss
 ```
 package.json script 下新增
-`"fix:scss": "stylelint src/**/*.scss --syntax scss --fix"`
+`"fix:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix"`
 
 
 ## 可能會遇到的問題
