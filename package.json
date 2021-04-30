@@ -4,7 +4,8 @@
   "description": "用來初始化各種模板的專案",
   "main": "init.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "node commit.js"
   },
   "repository": {
     "type": "git",

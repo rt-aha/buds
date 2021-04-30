@@ -6,7 +6,13 @@ const types = [
   'docs',
   'perf',
   'refactor',
-  'other'
+  'addon',
+  'other',
+  'init',
+  'ci',
+  'revert',
+  'test',
+  'release',
 ];
 
 module.exports = {
