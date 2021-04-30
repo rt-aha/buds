@@ -10,7 +10,8 @@ const types = [
 ];
 
 module.exports = {
-  extends: ['@commitlint/config-conventional'],
+  // '@commitlint/config-conventional', 
+  extends: ['gitmoji'],
   rules: {
     'type-enum': [2, 'always', types],
   }
