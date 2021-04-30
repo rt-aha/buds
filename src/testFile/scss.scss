@@ -1,0 +1,33 @@
+// rwd
+// 三個變數依序為 rwd斷點名稱，rwd斷點寬度，內部容器寬度
+$rwd_break_point: (tablet 768px 708px, pc 1320px 1200px);
+
+// 預設到第一個斷點前，左右留15px
+// 之後內部最大寬為 $rwd_break_point 每個項目的'內部容器寬度'(第三個參數)
+// 如需增加斷點，在 $rwd_break_point 中添加即可
+.g-content {
+  box-sizing: border-box;
+  padding: 0 15px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+@mixin set_content_size($content_size_value) {
+  .g-content {
+    display: block;
+    padding: 0 0;
+    width: 100%;
+    // min-width: $content_size_value;
+  }
+}
+
+@mixin rwd($break_point_key) {
+  @each $break_point, $break_point_value, $content_size_value in $rwd_break_point {
+    @if $break_point == $break_point_key {
+      @media screen and (min-width: $break_point_value) {
+        @include set_content_size($content_size_value);
+        @content;
+      }
+    }
+  }
+}

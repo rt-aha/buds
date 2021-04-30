@@ -4,8 +4,10 @@
 // "error" or 2 - turn the rule on as an error (exit code will be 1)
 
 const eslintConfig = {
-  parser: 'babel-eslint',
-  extends: ['airbnb', 'plugin:prettier/recommended'],
+  // parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
+  plugins: ['@typescript-eslint'],
+  extends: ['airbnb', 'plugin:prettier/recommended', 'plugin:@typescript-eslint/recommended'],
   root: true,
   env: {
     browser: true,
