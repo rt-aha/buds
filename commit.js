@@ -42,7 +42,7 @@ class Commit {
   pushToOrigin() {
     const { type, commit, target } = this.commitInfo;
 
-    const convertTypeToEmoji=  {
+    const convertTypeToEmoji = {
       feat: 'sparkles',
       style: 'lipstick',
       fix: 'bug',
