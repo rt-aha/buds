@@ -12,6 +12,7 @@ class Commit {
         {
           type: 'input',
           name: 'target',
+          default: 'master',
           message: 'Enter origin branch:',
         },
         {
