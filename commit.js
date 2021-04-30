@@ -18,7 +18,7 @@ class Commit {
         {
           type: 'list',
           name: 'type',
-          message: 'Select a Type:',
+          message: 'Select a type:',
           choices: [
             'feat',
             'style',
@@ -43,20 +43,20 @@ class Commit {
     const { type, commit, target } = this.commitInfo;
 
     const convertTypeToEmoji = {
-      feat: 'sparkles',
-      style: 'lipstick',
-      fix: 'bug',
-      chore: 'pencil2',
-      docs: 'memo',
-      perf: 'zap',
-      refactor: 'hammer',
-      addon: 'package',
-      other: 'speech_balloon',
-      init: 'tada',
-      ci: 'green_heart',
-      revert: 'rewind',
-      test: 'white_check_mark',
-      release: 'bookmark',
+      feat: 'sparkles', // 新功能
+      style: 'lipstick', // 樣式
+      fix: 'bug', // 修bug
+      chore: 'pencil2', // 雜事
+      docs: 'memo', // 文檔
+      perf: 'zap', // 優化
+      refactor: 'hammer', // 重構
+      addon: 'package', // 加入新library/package/dependence
+      other: 'speech_balloon', // 其他
+      init: 'tada', // 初始化
+      ci: 'green_heart', // ci 相關
+      revert: 'rewind', // 回滾
+      test: 'white_check_mark', // 測試
+      release: 'bookmark', // 發布新版
     };
 
     console.log(chalk.green.bold(`Wating git ...`));
