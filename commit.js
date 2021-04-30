@@ -1,46 +1,35 @@
 const inquirer = require('inquirer');
 const sh = require('shelljs');
 const chalk = require('chalk');
-const jsonfile = require('jsonfile');
 
 class Commit {
   commitInfo = {};
 
   async askMsg() {
-    const ans = await inquirer
-      .prompt([
-        {
-          type: 'input',
-          name: 'target',
-          default: 'master',
-          message: 'Enter origin branch:',
-        },
-        {
-          type: 'list',
-          name: 'type',
-          message: 'Select a type:',
-          choices: [
-            'feat',
-            'style',
-            'fix',
-            'chore',
-            'docs',
-            'perf',
-            'refactor',
-            'other'
-          ]
-        },
-        {
-          type: 'input',
-          name: 'commit',
-          message: 'Enter commit:',
-        },
-      ]);
+    const ans = await inquirer.prompt([
+      {
+        type: 'input',
+        name: 'target',
+        default: 'master',
+        message: 'Enter origin branch:',
+      },
+      {
+        type: 'list',
+        name: 'type',
+        message: 'Select a type:',
+        choices: ['feat', 'style', 'fix', 'chore', 'docs', 'perf', 'refactor', 'other'],
+      },
+      {
+        type: 'input',
+        name: 'commit',
+        message: 'Enter commit:',
+      },
+    ]);
     this.commitInfo = ans;
   }
 
   pushToOrigin() {
-    const { type, commit, target } = this.commitInfo;
+    const {type, commit, target} = this.commitInfo;
 
     const convertTypeToEmoji = {
       feat: 'sparkles', // 新功能
@@ -59,8 +48,8 @@ class Commit {
       release: 'bookmark', // 發布新版
     };
 
-    console.log(chalk.green.bold(`Wating git ...`));
-    const emoji = convertTypeToEmoji[type]
+    console.log(chalk.green.bold('Wating git ...'));
+    const emoji = convertTypeToEmoji[type];
     sh.exec('git add .');
     sh.exec(`git commit -m ":${emoji}: ${type}: ${commit}"`);
     sh.exec(`git push origin ${target}`);
