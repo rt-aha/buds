@@ -2,16 +2,20 @@ const inquirer = require('inquirer');
 const sh = require('shelljs');
 const chalk = require('chalk');
 const jsonfile = require('jsonfile');
+const yaml = require('js-yaml');
+const fs = require('fs');
 
 class Repo {
   repoInfo = {};
+  pipeline = [];
 
   logStep() {
     let stepCount = 0;
 
     return (text) => {
       stepCount += 1;
-      return console.log(chalk.green.bold(`STEP ${stepCount}: ${text}`));
+      const pipelineLength = this.pipeline.length;
+      return console.log(chalk.green.bold(`PROGRESS (${stepCount}/${pipelineLength}): ${text}`));
     };
   }
 
@@ -80,6 +84,11 @@ class Repo {
       },
       {
         type: 'confirm',
+        name: 'gitlabCi',
+        message: 'Add on: create .gitlab-ci.yml ?',
+      },
+      {
+        type: 'confirm',
         name: 'addNodeServer',
         message: 'Add on: a node server ?',
       },
@@ -90,8 +99,6 @@ class Repo {
   create() {
     const log = this.logStep();
 
-    const pipeline = [];
-
     // addNodeServer
     const {
       repoBelongTo,
@@ -100,6 +107,7 @@ class Repo {
       libs,
       repoVisibility,
       repoToken,
+      gitlabCi,
       addNodeServer,
     } = this.repoInfo;
     const createProjet = () => {
@@ -152,6 +160,7 @@ class Repo {
       sh.cp('commitlint.config.js', `./${repoName}`);
     };
     const pushSetupRepo = () => {
+      log('push to repository');
       let step5Title = '';
       if (libs.length === 0) {
         step5Title = 'push to origin repository.';
@@ -166,6 +175,7 @@ class Repo {
     };
 
     const addLibsToDep = () => {
+      log('add selected Libaray to package.json/dependencies.');
       const file = `./${repoName}/package.json`;
       jsonfile.readFile(file, function (err, pkg) {
         let { dependencies: dep } = pkg;
@@ -186,6 +196,7 @@ class Repo {
     };
 
     const addToolsToDevDep = () => {
+      log('add the library which used for development to package.json/devDependencies.');
       const file = `./${repoName}/package.json`;
       jsonfile.readFile(file, function (err, pkg) {
         let { devDependencies: devDep } = pkg;
@@ -219,33 +230,53 @@ class Repo {
       });
     };
 
+    const createGitlabYml = () => {
+      log('create .gitlab-ci.yml file.');
+      try {
+        const doc = yaml.load(fs.readFileSync('./gitlabCi.json', 'utf8'));
+
+        const ymlFile = yaml.dump(doc);
+
+        fs.writeFile('.gitlab-ci.yml', ymlFile, function (err) {
+          sh.exec(`mv .gitlab-ci.yml ./${repoName}`);
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
     const createNodeServer = () => {
+      log('create a node mock server.');
       sh.exec(`cd ${repoName} && git clone git@gitlab.com:p-template/node.git`);
       sh.exec(`cd ${repoName} && mv node nodeMockServer`);
       sh.exec(`cd ${repoName}/nodeMockServer && rm -rf .git`);
     };
 
-    pipeline.push(createProjet);
-    pipeline.push(cloneProject);
-    pipeline.push(removeREADME);
-    pipeline.push(setRemoteTemplateRepo);
-    pipeline.push(pullTemplateRepo);
-    pipeline.push(copyConfigFiles);
+    this.pipeline.push(createProjet);
+    this.pipeline.push(cloneProject);
+    this.pipeline.push(removeREADME);
+    this.pipeline.push(setRemoteTemplateRepo);
+    this.pipeline.push(pullTemplateRepo);
+    this.pipeline.push(copyConfigFiles);
     if (libs.length !== 0) {
-      pipeline.push(addLibsToDep);
+      this.pipeline.push(addLibsToDep);
     }
-    pipeline.push(addToolsToDevDep);
+    this.pipeline.push(addToolsToDevDep);
     if (addNodeServer) {
-      pipeline.push(createNodeServer);
+      this.pipeline.push(createNodeServer);
     }
-    pipeline.push(pushSetupRepo);
+    if (gitlabCi) {
+      this.pipeline.push(createGitlabYml);
+    }
+    this.pipeline.push(pushSetupRepo);
 
-    for (let fn of pipeline) {
+    for (let fn of this.pipeline) {
       fn();
     }
+
+    this.pipeline = [];
   }
 }
 
 const repo = new Repo();
 repo.askInfo().then(() => repo.create());
-// repo.modifyPackageJson('t-vue2', ['scss', 'network', 're-ui']);
