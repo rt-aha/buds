@@ -1,7 +1,7 @@
 const eslintConfig = {
+  root: true,
   parser: 'babel-eslint',
   extends: ['eslint:recommended', 'plugin:prettier/recommended'],
-  root: true,
   env: {
     browser: true,
     node: true,

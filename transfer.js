@@ -5,6 +5,9 @@ const repoName = 'mockRepo';
 // vscode setting
 sh.cp('-R', '.vscode', `./${repoName}`);
 
+// vscode setting
+sh.cp('.editorconfig', `./${repoName}`);
+
 // browserslintrc
 sh.cp('.browserslistrc', `./${repoName}`);
 
@@ -28,6 +31,11 @@ sh.cp('tsconfig.extend.json', `./${repoName}`);
 // vue 和 react 模板 由template自產
 // mpa 和 node 模板 由g-bud複製進去
 sh.cp('.babelrc.json', `./${repoName}`);
+
+// commit.js
+//先安裝一些東西
+sh.cp('commit.js', `./${repoName}`);
+sh.cp('commitlint.config.js', `./${repoName}`);
 
 // add node
 sh.exec(`cd ${repoName} && git clone git@gitlab.com:p-template/node.git`);

@@ -111,39 +111,107 @@ class Repo {
 
   create() {
     const log = this.logStep();
+
+    const pipeline = [];
+
+    // const logA = () => {
+    //   log('log aaa');
+    //   sh.exec('echo aaa');
+    // };
+
+    // const logB = () => {
+    //   log('log bbb');
+    //   sh.exec('echo bbb');
+    // };
+
+    // const logC = () => {
+    //   log('log ccc');
+    //   sh.exec('echo ccc');
+    // };
+    // const logD = () => {
+    //   log('log ddd');
+    //   sh.exec('echo ddd');
+    // };
+
     // addNodeServer
     const {repoBelongTo, repoName, template, libs, repoVisibility, repoToken} = this.repoInfo;
+    const createProjet = () => {
+      log(`create a project named ${repoName}`);
+      sh.exec(
+        `curl --silent --output /dev/null --request POST 'https://gitlab.com/api/v4/projects?name=${repoName}&visibility=${repoVisibility}&initialize_with_readme=true' --header 'PRIVATE-TOKEN: ${repoToken}'`,
+      );
+    };
+    const cloneProject = () => {
+      log(`clone repo from ${repoBelongTo}/${repoName}.`);
+      sh.exec(`git clone git@gitlab.com:${repoBelongTo}/${repoName}.git`);
+    };
+    const removeREADME = () => {
+      log('remove README.md. (it will be wrote by template).');
+      sh.exec(
+        `cd ${repoName} &&
+         rm -f README.md &&
+         git add README.md &&
+         git commit -m "[init] remove README.md"`,
+      );
+    };
+    const setRemoteTemplateRepo = () => {
+      log(`set ${template} template remote address.`);
+      sh.exec(`cd ${repoName} && git remote add tplt git@gitlab.com:p-template/${template}.git`);
+    };
+    const pullTemplateRepo = () => {
+      log(`pull ${template} template.`);
+      sh.exec(`cd ${repoName} && git pull tplt master --allow-unrelated-histories --no-commit`);
+    };
 
-    log(`create a project named ${repoName}`);
-    sh.exec(
-      `curl --silent --output /dev/null --request POST 'https://gitlab.com/api/v4/projects?name=${repoName}&visibility=${repoVisibility}&initialize_with_readme=true' --header 'PRIVATE-TOKEN: ${repoToken}'`,
-    );
+    const copyConfigFiles = () => {
+      log('copy config files.');
+      sh.cp('-R', '.vscode', `./${repoName}`);
+      sh.cp('.editorconfig', `./${repoName}`);
+      sh.cp('.browserslistrc', `./${repoName}`);
+      sh.cp('.prettierrc.js', `./${repoName}`);
+      sh.cp('.stylelintrc.js', `./${repoName}`);
+      sh.cp('.eslintrc.js', `./${repoName}`);
 
-    log(`clone repo from ${repoBelongTo}/${repoName}.`);
-    sh.exec(`git clone git@gitlab.com:${repoBelongTo}/${repoName}.git`);
+      if (template.includes('ts')) {
+        sh.cp('tsconfig.json', `./${repoName}`);
+        sh.cp('tsconfig.extend.json', `./${repoName}`);
+      } else {
+        sh.cp('jsconfig.json', `./${repoName}`);
+      }
 
-    log('remove README.md. (it will be wrote by template).');
-    sh.exec(`cd ${repoName} && rm -f README.md && git add README.md && git commit -m "[init] remove README.md"`);
+      // commit.js
+      //先安裝一些東西
+      sh.cp('commit.js', `./${repoName}`);
+      sh.cp('commitlint.config.js', `./${repoName}`);
+    };
 
-    log(`set ${template} template remote address.`);
-    sh.exec(`cd ${repoName} && git remote add tplt git@gitlab.com:p-template/${template}.git`);
+    // const pushSetupRepo = () => {
+    //   let step5Title = '';
+    //   if (libs.length === 0) {
+    //     step5Title = 'push to origin repository.';
+    //   } else {
+    //     step5Title = `add ${libs.join(', ')} libs and push to origin repository.`;
+    //   }
+    //   log(step5Title);
+    //   this.modifyPackageJson(repoName, libs);
+    //   sh.exec(
+    //     `cd ${repoName} && git add . && git commit -m "[init] create ${template} template" && git push origin master`,
+    //   );
+    // };
 
-    log(`pull ${template} template.`);
-    sh.exec(`cd ${repoName} && git pull tplt master --allow-unrelated-histories --no-commit`);
+    pipeline.push(createProjet);
+    pipeline.push(cloneProject);
+    pipeline.push(removeREADME);
+    pipeline.push(setRemoteTemplateRepo);
+    pipeline.push(pullTemplateRepo);
+    pipeline.push(copyConfigFiles);
 
-    let step5Title = '';
-    if (libs.length === 0) {
-      step5Title = 'push to origin repository.';
-    } else {
-      step5Title = `add ${libs.join(', ')} libs and push to origin repository.`;
+    for (let fn of pipeline) {
+      fn();
     }
-    log(step5Title);
-    this.modifyPackageJson(repoName, libs);
-    sh.exec(
-      `cd ${repoName} && git add . && git commit -m "[init] create ${template} template" && git push origin master`,
-    );
   }
 }
 
 const repo = new Repo();
 repo.askInfo().then(() => repo.create());
+// repo.create();
