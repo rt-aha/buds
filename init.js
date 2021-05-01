@@ -19,8 +19,8 @@ class Repo {
     if (libsList.length === 0) return;
 
     const file = `./${repoFolder}/package.json`;
-    jsonfile.readFile(file, function (err, obj) {
-      let {dependencies: dep} = obj;
+    jsonfile.readFile(file, function (err, pkg) {
+      let { dependencies: dep } = pkg;
 
       libsList.forEach((libName) => {
         dep = {
@@ -29,10 +29,31 @@ class Repo {
         };
       });
 
+      dep = {
+        ...dep,
+        stylelint: '^13.13.0',
+        'stylelint-config-prettier': '^8.0.2',
+        'stylelint-config-sass-guidelines': '^8.0.0',
+        'stylelint-config-standard': '^22.0.0',
+        'stylelint-no-unsupported-browser-features': '^4.1.4',
+        'stylelint-order': '^4.1.0',
+        'stylelint-scss': '^3.19.0',
+        husky: '^6.0.0',
+        inquirer: '^8.0.0',
+        jsonfile: '^6.1.0',
+        'lint-staged': '^10.5.4',
+        prettier: '^2.2.1',
+        shelljs: '^0.8.4',
+        chalk: '^4.1.1',
+        'commitlint-config-gitmoji': '^2.2.3',
+        eslint: '^7.2.0',
+        '@commitlint/cli': '^12.1.1',
+      };
+
       pkg.dependencies = dep;
 
-      jsonfile.writeFile(file, pkg, function (err) {
-        if (err) console.error(err);
+      jsonfile.writeFile(file, pkg, function (e) {
+        if (e) console.error(e);
       });
     });
   }
@@ -114,27 +135,8 @@ class Repo {
 
     const pipeline = [];
 
-    // const logA = () => {
-    //   log('log aaa');
-    //   sh.exec('echo aaa');
-    // };
-
-    // const logB = () => {
-    //   log('log bbb');
-    //   sh.exec('echo bbb');
-    // };
-
-    // const logC = () => {
-    //   log('log ccc');
-    //   sh.exec('echo ccc');
-    // };
-    // const logD = () => {
-    //   log('log ddd');
-    //   sh.exec('echo ddd');
-    // };
-
     // addNodeServer
-    const {repoBelongTo, repoName, template, libs, repoVisibility, repoToken} = this.repoInfo;
+    const { repoBelongTo, repoName, template, libs, repoVisibility, repoToken } = this.repoInfo;
     const createProjet = () => {
       log(`create a project named ${repoName}`);
       sh.exec(
@@ -170,7 +172,7 @@ class Repo {
       sh.cp('.browserslistrc', `./${repoName}`);
       sh.cp('.prettierrc.js', `./${repoName}`);
       sh.cp('.stylelintrc.js', `./${repoName}`);
-      sh.cp('.eslintrc.js', `./${repoName}`);
+      // sh.cp('.eslintrc.js', `./${repoName}`);
 
       if (template.includes('ts')) {
         sh.cp('tsconfig.json', `./${repoName}`);
@@ -184,20 +186,19 @@ class Repo {
       sh.cp('commit.js', `./${repoName}`);
       sh.cp('commitlint.config.js', `./${repoName}`);
     };
-
-    // const pushSetupRepo = () => {
-    //   let step5Title = '';
-    //   if (libs.length === 0) {
-    //     step5Title = 'push to origin repository.';
-    //   } else {
-    //     step5Title = `add ${libs.join(', ')} libs and push to origin repository.`;
-    //   }
-    //   log(step5Title);
-    //   this.modifyPackageJson(repoName, libs);
-    //   sh.exec(
-    //     `cd ${repoName} && git add . && git commit -m "[init] create ${template} template" && git push origin master`,
-    //   );
-    // };
+    const pushSetupRepo = () => {
+      let step5Title = '';
+      if (libs.length === 0) {
+        step5Title = 'push to origin repository.';
+      } else {
+        step5Title = `add ${libs.join(', ')} libs and push to origin repository.`;
+      }
+      log(step5Title);
+      this.modifyPackageJson(repoName, libs);
+      sh.exec(
+        `cd ${repoName} && git add . && git commit -m ":tada: init: create ${template} template" && git push origin master`,
+      );
+    };
 
     pipeline.push(createProjet);
     pipeline.push(cloneProject);
@@ -205,6 +206,7 @@ class Repo {
     pipeline.push(setRemoteTemplateRepo);
     pipeline.push(pullTemplateRepo);
     pipeline.push(copyConfigFiles);
+    pipeline.push(pushSetupRepo);
 
     for (let fn of pipeline) {
       fn();
@@ -214,4 +216,4 @@ class Repo {
 
 const repo = new Repo();
 repo.askInfo().then(() => repo.create());
-// repo.create();
+// repo.modifyPackageJson('t-vue2', ['scss', 'network', 're-ui']);

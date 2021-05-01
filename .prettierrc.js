@@ -6,7 +6,7 @@ const prettierConfig = {
   singleQuote: true,
   jsxSingleQuote: false,
   trailingComma: 'all',
-  bracketSpacing: false,
+  bracketSpacing: true,
   jsxBracketSameLine: false,
   arrowParens: 'always',
 };
