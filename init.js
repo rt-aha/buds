@@ -15,49 +15,6 @@ class Repo {
     };
   }
 
-  modifyPackageJson(repoFolder, libsList) {
-    if (libsList.length === 0) return;
-
-    const file = `./${repoFolder}/package.json`;
-    jsonfile.readFile(file, function (err, pkg) {
-      let { dependencies: dep } = pkg;
-
-      libsList.forEach((libName) => {
-        dep = {
-          ...dep,
-          [`@indigoichigo/${libName}`]: `https://gitlab.com/p-libs/${libName}.git`,
-        };
-      });
-
-      dep = {
-        ...dep,
-        stylelint: '^13.13.0',
-        'stylelint-config-prettier': '^8.0.2',
-        'stylelint-config-sass-guidelines': '^8.0.0',
-        'stylelint-config-standard': '^22.0.0',
-        'stylelint-no-unsupported-browser-features': '^4.1.4',
-        'stylelint-order': '^4.1.0',
-        'stylelint-scss': '^3.19.0',
-        husky: '^6.0.0',
-        inquirer: '^8.0.0',
-        jsonfile: '^6.1.0',
-        'lint-staged': '^10.5.4',
-        prettier: '^2.2.1',
-        shelljs: '^0.8.4',
-        chalk: '^4.1.1',
-        'commitlint-config-gitmoji': '^2.2.3',
-        eslint: '^7.2.0',
-        '@commitlint/cli': '^12.1.1',
-      };
-
-      pkg.dependencies = dep;
-
-      jsonfile.writeFile(file, pkg, function (e) {
-        if (e) console.error(e);
-      });
-    });
-  }
-
   async askInfo() {
     const ans = await inquirer.prompt([
       {
@@ -136,7 +93,15 @@ class Repo {
     const pipeline = [];
 
     // addNodeServer
-    const { repoBelongTo, repoName, template, libs, repoVisibility, repoToken } = this.repoInfo;
+    const {
+      repoBelongTo,
+      repoName,
+      template,
+      libs,
+      repoVisibility,
+      repoToken,
+      addNodeServer,
+    } = this.repoInfo;
     const createProjet = () => {
       log(`create a project named ${repoName}`);
       sh.exec(
@@ -194,10 +159,70 @@ class Repo {
         step5Title = `add ${libs.join(', ')} libs and push to origin repository.`;
       }
       log(step5Title);
-      this.modifyPackageJson(repoName, libs);
+
       sh.exec(
         `cd ${repoName} && git add . && git commit -m ":tada: init: create ${template} template" && git push origin master`,
       );
+    };
+
+    const addLibsToDep = () => {
+      const file = `./${repoName}/package.json`;
+      jsonfile.readFile(file, function (err, pkg) {
+        let { dependencies: dep } = pkg;
+
+        libs.forEach((libName) => {
+          dep = {
+            ...dep,
+            [`@indigoichigo/${libName}`]: `https://gitlab.com/p-libs/${libName}.git`,
+          };
+        });
+
+        pkg.dependencies = dep;
+
+        jsonfile.writeFile(file, pkg, function (e) {
+          if (e) console.error(e);
+        });
+      });
+    };
+
+    const addToolsToDevDep = () => {
+      const file = `./${repoName}/package.json`;
+      jsonfile.readFile(file, function (err, pkg) {
+        let { devDependencies: devDep } = pkg;
+
+        devDep = {
+          ...devDep,
+          stylelint: '^13.13.0',
+          'stylelint-config-prettier': '^8.0.2',
+          'stylelint-config-sass-guidelines': '^8.0.0',
+          'stylelint-config-standard': '^22.0.0',
+          'stylelint-no-unsupported-browser-features': '^4.1.4',
+          'stylelint-order': '^4.1.0',
+          'stylelint-scss': '^3.19.0',
+          husky: '^6.0.0',
+          inquirer: '^8.0.0',
+          jsonfile: '^6.1.0',
+          'lint-staged': '^10.5.4',
+          prettier: '^2.2.1',
+          shelljs: '^0.8.4',
+          chalk: '^4.1.1',
+          'commitlint-config-gitmoji': '^2.2.3',
+          eslint: '^7.2.0',
+          '@commitlint/cli': '^12.1.1',
+        };
+
+        pkg.devDependencies = devDep;
+
+        jsonfile.writeFile(file, pkg, function (e) {
+          if (e) console.error(e);
+        });
+      });
+    };
+
+    const createNodeServer = () => {
+      sh.exec(`cd ${repoName} && git clone git@gitlab.com:p-template/node.git`);
+      sh.exec(`cd ${repoName} && mv node nodeMockServer`);
+      sh.exec(`cd ${repoName}/nodeMockServer && rm -rf .git`);
     };
 
     pipeline.push(createProjet);
@@ -206,6 +231,13 @@ class Repo {
     pipeline.push(setRemoteTemplateRepo);
     pipeline.push(pullTemplateRepo);
     pipeline.push(copyConfigFiles);
+    if (libs.length !== 0) {
+      pipeline.push(addLibsToDep);
+    }
+    pipeline.push(addToolsToDevDep);
+    if (addNodeServer) {
+      pipeline.push(createNodeServer);
+    }
     pipeline.push(pushSetupRepo);
 
     for (let fn of pipeline) {
