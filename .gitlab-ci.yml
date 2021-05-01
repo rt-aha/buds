@@ -1,0 +1,44 @@
+stages:
+  - test_build
+  - deploy
+
+test_build:
+  stage: test_build
+  image: node
+  before_script:
+    - yarn add @vue/cli-service
+  script:
+    - echo "---test stage---"
+    - yarn test:unit
+    - echo "---build stage---"
+    - yarn build
+  artifacts:
+    paths:
+      - ./dist
+
+deploy:qa:
+  stage: deploy
+  image: alpine:3.7
+  before_script:
+    - apk update
+    - apk add openssh
+  script:
+    - ls
+    - mkdir -p ~/.ssh
+    - echo "$AWS_KEY" > ~/.ssh/$KEY_NAME
+    - chmod 600 ~/.ssh/$KEY_NAME
+    - scp -o StrictHostKeyChecking=No -i ~/.ssh/$KEY_NAME -r dist/* $HOST:/$TARGET_FOLDER
+
+deploy:prod:
+  stage: deploy
+  image: alpine:3.7
+  before_script:
+    - apk update
+    - apk add openssh
+  script:
+    - ls
+    - mkdir -p ~/.ssh
+    - echo "$AWS_KEY" > ~/.ssh/$KEY_NAME
+    - chmod 600 ~/.ssh/$KEY_NAME
+    - ssh -tt -o StrictHostKeyChecking=No -i "~/.ssh/$KEY_NAME" $HOST "cd / && ls"
+  when: manual

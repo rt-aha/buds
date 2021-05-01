@@ -46,7 +46,6 @@ class Commit {
   pushToOrigin() {
     const {type, commit, target} = this.commitInfo;
     const [ansType] = type.split(' ');
-    console.log('ansType', ansType);
 
     const convertTypeToEmoji = {
       feat: 'sparkles',
