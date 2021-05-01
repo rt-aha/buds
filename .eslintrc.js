@@ -40,7 +40,6 @@ const eslintConfig = {
     'no-extra-semi': 2,
     'no-debugger': 2,
     eqeqeq: 2,
-
     'eol-last': 0,
     'lines-around-comment': 0,
     'prefer-const': 0,
@@ -51,9 +50,6 @@ const eslintConfig = {
     'use-isnan': 2,
     'valid-typeof': 2,
     'space-in-parens': [0, 'always'],
-
-    'object-curly-spacing': [0, 'always'],
-
     'no-use-before-define': [2, {functions: false}],
     'class-methods-use-this': 'off',
     'no-undef': [1],
