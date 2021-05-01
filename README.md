@@ -10,16 +10,15 @@ REQUIRED:
 - [x] 推上 repo
 - [x] jsconfig.json/tsconfig.json
 - [x] .vscode setting
-- [ ] babel.config.js
 - [x] .prettier
 - [x] stylelint
 - [x] .browserslintrc
 - [x] .editorconfig
+- [ ] husky 安裝 和 commit lint 寫進 package
 - [ ] version-stable
-- [ ] gitlab-ci.yml
-- [ ] eslint 每個rule屬性要看過
 - [ ] eslint pre-commit
-- [ ] addon: a node server(進專案拉repo，然後移除該資料夾.git)
+- [x] gitlab-ci.yml
+- [x] addon: a node server(進專案拉repo，然後移除該資料夾.git)
 - [ ] 生成README.ME(動態生成，初始化專案有配置的內容)
 - [ ] jsconfig.json/tsconfig.json(內容屬性還要在了解)
 - [ ] 寫commit規則文檔
