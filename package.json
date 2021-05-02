@@ -4,11 +4,8 @@
   "description": "用來初始化各種模板的專案",
   "main": "init.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "node commit.js",
-    "eslint": "eslint --init",
-    "fix:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix",
-    "lint": "lint-staged"
+    "lint:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix"
   },
   "repository": {
     "type": "git",
@@ -60,7 +57,7 @@
     }
   },
   "lint-staged": {
-    "*": "echo \"tada!\""
+    "js.*": "lint"
   },
   "dependencies": {}
 }
