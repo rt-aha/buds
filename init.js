@@ -275,8 +275,6 @@ class Repo {
         pkg.devDependencies = devDep;
         pkg.scripts = scripts;
 
-        console.log('pkg...', pkg);
-
         jsonfile.writeFile(file, pkg, function (e) {
           if (e) console.error(e);
         });
