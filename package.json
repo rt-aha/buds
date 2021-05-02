@@ -1,6 +1,6 @@
 {
   "name": "p-bud",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "description": "用來初始化各種模板的專案",
   "main": "init.js",
   "scripts": {
