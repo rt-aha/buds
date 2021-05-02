@@ -55,7 +55,7 @@
   },
   "husky": {
     "hooks": {
-      "commit-msg": "echo \"[husky commit-msg\"",
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
       "pre-commit": "echo \"[husky pre-commit\""
     }
   },
