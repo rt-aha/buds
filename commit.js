@@ -67,10 +67,10 @@ class Commit {
     };
 
     const emoji = convertTypeToEmoji[ansType];
-    const commitMessage = `":${emoji}: ${ansType}: ${commit}"`;
+    const commitMessage = `"${ansType}: ${commit} :${emoji}:"`;
 
     console.log(chalk.green.bold('Wating git ...'));
-    console.log(chalk.cyan(`The full commit message:`, chalk.cyan.bold(`${commitMessage}`)));
+    // console.log(chalk.cyan(`The full commit message:`, chalk.cyan.bold(`${commitMessage}`)));
 
     try {
       sh.exec('git add .');
