@@ -148,13 +148,16 @@ class Repo {
       sh.cp('.browserslistrc', `./${repoName}`);
       sh.cp('.prettierrc.js', `./${repoName}`);
       sh.cp('.stylelintrc.js', `./${repoName}`);
-      // sh.cp('.eslintrc.js', `./${repoName}`);
 
       if (template.includes('ts')) {
         sh.cp('tsconfig.json', `./${repoName}`);
         sh.cp('tsconfig.extend.json', `./${repoName}`);
       } else {
         sh.cp('jsconfig.json', `./${repoName}`);
+      }
+
+      if (!template.indexOf('vue') && !template.indexOf('react')) {
+        sh.cp('.eslintrc.js', `./${repoName}`);
       }
 
       // commit.js
@@ -202,7 +205,15 @@ class Repo {
       log('add the library which used for development to package.json/devDependencies.');
       const file = `./${repoName}/package.json`;
       jsonfile.readFile(file, function (err, pkg) {
-        let { devDependencies: devDep } = pkg;
+        let { devDependencies: devDep, scripts } = pkg;
+
+        scripts = {
+          ...scripts,
+          commit: 'node commit.js',
+          'lint:style': 'stylelint src/**/*.scss src/**/*.css --syntax scss --fix',
+          'lint:prettier': 'prettier --write .',
+          'lint:js.ts': 'lint',
+        };
 
         devDep = {
           ...devDep,
@@ -226,6 +237,7 @@ class Repo {
         };
 
         pkg.devDependencies = devDep;
+        pkg.scripts = scripts;
 
         jsonfile.writeFile(file, pkg, function (e) {
           if (e) console.error(e);
@@ -255,7 +267,7 @@ class Repo {
       sh.exec(`cd ${repoName}/nodeMockServer && rm -rf .git`);
     };
 
-    const addCommitlint = () => {
+    const addGitHooksForLint = () => {
       sh.exec(`cd ${repoName} && yarn add husky@latest --dev`);
       sh.exec(`cd ${repoName} && yarn husky install`);
       sh.exec(
@@ -266,16 +278,21 @@ class Repo {
       const file = `./${repoName}/package.json`;
       jsonfile.readFile(file, function (err, pkg) {
         pkg['husky'] = {
-          husky: {
-            hooks: {
-              'commit-msg': 'commitlint -e $HUSKY_GIT_PARAMS',
-              'pre-commit': 'lint-staged',
-            },
-            'lint-staged': {
-              '*.js': ['vue-cli-service lint', 'git add'],
-              '*.vue': ['vue-cli-service lint', 'git add'],
-            },
+          hooks: {
+            'commit-msg': 'commitlint -e $HUSKY_GIT_PARAMS',
+            'pre-commit': 'lint-staged',
           },
+          'lint-staged': {
+            '*.js': ['vue-cli-service lint', 'git add'],
+            '*.vue': ['vue-cli-service lint', 'git add'],
+          },
+        };
+
+        pkg['lint-staged'] = {
+          '*.{scss,css}': ['yarn lint:style'],
+          '*': ['yarn lint:prettier'],
+          '*.{js,ts}': ['eslint --fix'],
+          '*.vue': ['vue-cli-service lint'],
         };
 
         jsonfile.writeFile(file, pkg, function (e) {
@@ -300,7 +317,7 @@ class Repo {
     if (gitlabCi) {
       this.pipeline.push(createGitlabYml);
     }
-    this.pipeline.push(addCommitlint);
+    this.pipeline.push(addGitHooksForLint);
     this.pipeline.push(pushSetupRepo);
 
     for (let fn of this.pipeline) {
