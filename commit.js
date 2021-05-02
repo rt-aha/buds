@@ -44,7 +44,7 @@ class Commit {
   }
 
   pushToOrigin() {
-    const {type, commit, target} = this.commitInfo;
+    const { type, commit, target } = this.commitInfo;
     const [ansType] = type.split(' ');
 
     const convertTypeToEmoji = {
@@ -64,10 +64,13 @@ class Commit {
       release: 'bookmark',
     };
 
-    console.log(chalk.green.bold('Wating git ...'));
     const emoji = convertTypeToEmoji[ansType];
+    const commitMessage = `":${emoji}: ${ansType}: ${commit}"`;
+
+    console.log(chalk.cyan(`the full commit message: ${commitMessage}`));
+    console.log(chalk.white('Wating git ...'));
     sh.exec('git add .');
-    sh.exec(`git commit -m ":${emoji}: ${ansType}: ${commit}"`);
+    sh.exec(`git commit -m ${commitMessage}`);
     sh.exec(`git push origin ${target}`);
   }
 }
