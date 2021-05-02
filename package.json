@@ -54,15 +54,15 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
-      "pre-commit": "echo \"pre commit\""
+      "pre-commit": "lint-staged"
     },
     "lint-staged": {
       "*.js": [
-        "vue-cli-service lint",
+        "echo \"pre commit js\"",
         "git add"
       ],
       "*.vue": [
-        "vue-cli-service lint",
+        "echo \"pre commit vue\"",
         "git add"
       ]
     }
