@@ -226,6 +226,26 @@ class Repo {
 
         devDep = {
           ...devDep,
+          '@commitlint/cli': '^12.1.1',
+          '@commitlint/config-conventional': '^12.1.1',
+          '@typescript-eslint/eslint-plugin': '^4.22.0',
+          '@typescript-eslint/parser': '^4.22.0',
+          'babel-eslint': '^10.1.0',
+          chalk: '^4.1.1',
+          eslint: '^7.2.0',
+          'eslint-config-airbnb': '18.2.1',
+          'eslint-config-prettier': '^8.3.0',
+          'eslint-plugin-import': '^2.22.1',
+          'eslint-plugin-jsx-a11y': '^6.4.1',
+          'eslint-plugin-prettier': '^3.4.0',
+          husky: '4.3.8',
+          inquirer: '^8.0.0',
+          'js-yaml': '^4.1.0',
+          jsonfile: '^6.1.0',
+          'lint-staged': '^10.5.4',
+          prettier: '^2.2.1',
+          shelljs: '^0.8.4',
+          'standard-version': '^9.2.0',
           stylelint: '^13.13.0',
           'stylelint-config-prettier': '^8.0.2',
           'stylelint-config-sass-guidelines': '^8.0.0',
@@ -233,16 +253,8 @@ class Repo {
           'stylelint-no-unsupported-browser-features': '^4.1.4',
           'stylelint-order': '^4.1.0',
           'stylelint-scss': '^3.19.0',
-          husky: '4.3.8',
-          inquirer: '^8.0.0',
-          jsonfile: '^6.1.0',
-          'lint-staged': '^10.5.4',
-          prettier: '^2.2.1',
-          shelljs: '^0.8.4',
-          chalk: '^4.1.1',
-          'commitlint-config-gitmoji': '^2.2.3',
-          eslint: '^7.2.0',
-          '@commitlint/cli': '^12.1.1',
+          typescript: '^4.2.4',
+          'write-json-file': '^4.3.0',
         };
 
         pkg['husky'] = {
@@ -262,6 +274,8 @@ class Repo {
         pkg.dependencies = dep;
         pkg.devDependencies = devDep;
         pkg.scripts = scripts;
+
+        console.log('pkg...', pkg);
 
         jsonfile.writeFile(file, pkg, function (e) {
           if (e) console.error(e);
