@@ -25,6 +25,7 @@ class Repo {
         type: 'repoToken',
         name: 'repoToken',
         message: 'Repository token:',
+        default: 'Em_rZ9kRgTVr6uVxzz6K',
       },
       {
         type: 'input',
@@ -252,6 +253,34 @@ class Repo {
       sh.exec(`cd ${repoName}/nodeMockServer && rm -rf .git`);
     };
 
+    const addCommitlint = () => {
+      sh.exec(`cd ${repoName} && yarn add husky@latest --dev`);
+      sh.exec(`cd ${repoName} && yarn husky install`);
+      sh.exec(
+        `cd ${repoName} && npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'`,
+      );
+
+      const file = `./${repoName}/package.json`;
+      jsonfile.readFile(file, function (err, pkg) {
+        pkg['husky'] = {
+          husky: {
+            hooks: {
+              'commit-msg': 'commitlint -e $HUSKY_GIT_PARAMS',
+              'pre-commit': 'lint-staged',
+            },
+            'lint-staged': {
+              '*.js': ['vue-cli-service lint', 'git add'],
+              '*.vue': ['vue-cli-service lint', 'git add'],
+            },
+          },
+        };
+
+        jsonfile.writeFile(file, pkg, function (e) {
+          if (e) console.error(e);
+        });
+      });
+    };
+
     this.pipeline.push(createProjet);
     this.pipeline.push(cloneProject);
     this.pipeline.push(removeREADME);
@@ -268,6 +297,7 @@ class Repo {
     if (gitlabCi) {
       this.pipeline.push(createGitlabYml);
     }
+    this.pipeline.push(addCommitlint);
     this.pipeline.push(pushSetupRepo);
 
     for (let fn of this.pipeline) {
