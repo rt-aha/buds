@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.1.0 (2021-05-02)
+
+### Features
+
+- add release script to package.json :sparkles: ([7e9cc0a](https://gitlab.com/silentice1534/p-bud/commit/7e9cc0a5f8db19cc24bf29231b423fbd6313eb3e))
+- test commit :sparkles: ([c9c4721](https://gitlab.com/silentice1534/p-bud/commit/c9c47216f34894fb1c957e880ea5f72e5578c5bd))
+- test commit and release :sparkles: ([385cb4b](https://gitlab.com/silentice1534/p-bud/commit/385cb4b79f558f2f3834b60c6f77d21e1efc1933))
+- test release :sparkles: ([d4b6565](https://gitlab.com/silentice1534/p-bud/commit/d4b6565966d7e200c68ed63a5bd975338ceff4c1))
+
 ### [1.4.2](https://gitlab.com/silentice1534/p-bud/compare/v1.4.1...v1.4.2) (2021-05-02)
 
 ### [1.4.1](https://gitlab.com/silentice1534/p-bud/compare/v1.4.0...v1.4.1) (2021-05-02)
