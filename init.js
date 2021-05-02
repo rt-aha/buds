@@ -253,9 +253,9 @@ class Repo {
 
         pkg['lint-staged'] = {
           '*.{scss,css}': ['yarn lint:style'],
-          '*': ['yarn lint:prettier'],
           '*.{js,ts}': ['yarn lint:js.ts'],
           '*.vue': ['vue-cli-service lint'],
+          '*': ['yarn lint:prettier'],
         };
 
         pkg.dependencies = dep;
