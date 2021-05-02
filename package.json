@@ -1,6 +1,6 @@
 {
   "name": "p-bud",
-  "version": "1.1.8",
+  "version": "1.1.11",
   "description": "用來初始化各種模板的專案",
   "main": "init.js",
   "scripts": {
@@ -72,10 +72,5 @@
     "*.vue": [
       "vue-cli-service lint"
     ]
-  },
-  "standard-version": {
-    "scripts": {
-      "precommit": "echo \"precommit\""
-    }
   }
 }
