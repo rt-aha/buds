@@ -147,6 +147,7 @@ class Repo {
       sh.cp('.browserslistrc', `./${repoName}`);
       sh.cp('.prettierrc.js', `./${repoName}`);
       sh.cp('.stylelintrc.js', `./${repoName}`);
+      sh.cp('.prettierignore', `./${repoName}`);
 
       if (template.includes('ts')) {
         sh.cp('tsconfig.json', `./${repoName}`);
@@ -218,7 +219,7 @@ class Repo {
         scripts = {
           ...scripts,
           commit: 'node commit.js',
-          release: 'standard-version && git push --follow-tags origin master',
+          release: 'standard-version && git push --follow-tags origin master && && git add .',
           'lint:style': 'stylelint src/**/*.scss src/**/*.css --syntax scss --fix',
           'lint:prettier': 'prettier --write .',
           'lint:js.ts': 'eslint --fix',
@@ -268,7 +269,7 @@ class Repo {
           '*.{scss,css}': ['yarn lint:style'],
           '*.{js,ts}': ['yarn lint:js.ts'],
           '*.vue': ['vue-cli-service lint'],
-          '*': ['yarn lint:prettier'],
+          '*.{html,css,sccc,js,jsx,tsx,vue}': ['yarn lint:prettier'],
         };
 
         pkg.dependencies = dep;

@@ -68,7 +68,7 @@
     "*.vue": [
       "vue-cli-service lint"
     ],
-    "*": [
+    "*.{html,css,sccc,js,jsx,tsx,vue}": [
       "yarn lint:prettier"
     ]
   }
