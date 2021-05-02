@@ -1,4 +1,4 @@
-const t = 'fdsafjlasdj';
+var t = 'fdsafjlasdj';
 console.log(t);
 
 const a = new Promise((res) => {
