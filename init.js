@@ -211,7 +211,7 @@ class Repo {
           'stylelint-no-unsupported-browser-features': '^4.1.4',
           'stylelint-order': '^4.1.0',
           'stylelint-scss': '^3.19.0',
-          husky: '^6.0.0',
+          husky: '4.3.8',
           inquirer: '^8.0.0',
           jsonfile: '^6.1.0',
           'lint-staged': '^10.5.4',

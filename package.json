@@ -8,7 +8,7 @@
     "commit": "node commit.js",
     "eslint": "eslint --init",
     "fix:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix",
-    "husky": "husky install"
+    "lint": "lint-staged"
   },
   "repository": {
     "type": "git",
@@ -56,8 +56,11 @@
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS",
-      "pre-commit": "echo \"[husky pre-commit\""
+      "pre-commit": "lint-staged"
     }
+  },
+  "lint-staged": {
+    "*": "echo \"tada!\""
   },
   "dependencies": {}
 }
