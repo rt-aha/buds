@@ -102,7 +102,6 @@ class Repo {
   create() {
     const log = this.logStep();
 
-    // addNodeServer
     const {
       repoBelongTo,
       repoName,
@@ -201,11 +200,20 @@ class Repo {
       });
     };
 
-    const addToolsToDevDep = () => {
+    const modifyPackageFile = () => {
       log('add the library which used for development to package.json/devDependencies.');
       const file = `./${repoName}/package.json`;
       jsonfile.readFile(file, function (err, pkg) {
-        let { devDependencies: devDep, scripts } = pkg;
+        let { scripts, dependencies: dep, devDependencies: devDep } = pkg;
+
+        if (libs.length !== 0) {
+          libs.forEach((libName) => {
+            dep = {
+              ...dep,
+              [`@indigoichigo/${libName}`]: `https://gitlab.com/p-libs/${libName}.git`,
+            };
+          });
+        }
 
         scripts = {
           ...scripts,
@@ -236,6 +244,21 @@ class Repo {
           '@commitlint/cli': '^12.1.1',
         };
 
+        pkg['husky'] = {
+          hooks: {
+            'commit-msg': 'commitlint -e $HUSKY_GIT_PARAMS',
+            'pre-commit': 'lint-staged',
+          },
+        };
+
+        pkg['lint-staged'] = {
+          '*.{scss,css}': ['yarn lint:style'],
+          '*': ['yarn lint:prettier'],
+          '*.{js,ts}': ['yarn lint:js.ts'],
+          '*.vue': ['vue-cli-service lint'],
+        };
+
+        pkg.dependencies = dep;
         pkg.devDependencies = devDep;
         pkg.scripts = scripts;
 
@@ -267,57 +290,22 @@ class Repo {
       sh.exec(`cd ${repoName}/nodeMockServer && rm -rf .git`);
     };
 
-    const addGitHooksForLint = () => {
-      sh.exec(`cd ${repoName} && yarn add husky@latest --dev`);
-      sh.exec(`cd ${repoName} && yarn husky install`);
-      sh.exec(
-        `cd ${repoName} &&
-         npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'`,
-      );
-
-      const file = `./${repoName}/package.json`;
-      jsonfile.readFile(file, function (err, pkg) {
-        pkg['husky'] = {
-          hooks: {
-            'commit-msg': 'commitlint -e $HUSKY_GIT_PARAMS',
-            'pre-commit': 'lint-staged',
-          },
-          'lint-staged': {
-            '*.js': ['vue-cli-service lint', 'git add'],
-            '*.vue': ['vue-cli-service lint', 'git add'],
-          },
-        };
-
-        pkg['lint-staged'] = {
-          '*.{scss,css}': ['yarn lint:style'],
-          '*': ['yarn lint:prettier'],
-          '*.{js,ts}': ['yarn lint:js.ts'],
-          '*.vue': ['vue-cli-service lint'],
-        };
-
-        jsonfile.writeFile(file, pkg, function (e) {
-          if (e) console.error(e);
-        });
-      });
-    };
-
     this.pipeline.push(createProjet);
     this.pipeline.push(cloneProject);
     this.pipeline.push(removeREADME);
     this.pipeline.push(setRemoteTemplateRepo);
     this.pipeline.push(pullTemplateRepo);
     this.pipeline.push(copyConfigFiles);
-    if (libs.length !== 0) {
-      this.pipeline.push(addLibsToDep);
-    }
-    this.pipeline.push(addToolsToDevDep);
-    if (addNodeServer) {
-      this.pipeline.push(createNodeServer);
-    }
+
     if (gitlabCi) {
       this.pipeline.push(createGitlabYml);
     }
-    this.pipeline.push(addGitHooksForLint);
+
+    if (addNodeServer) {
+      this.pipeline.push(createNodeServer);
+    }
+
+    this.pipeline.push(modifyPackageFile);
     this.pipeline.push(pushSetupRepo);
 
     for (let fn of this.pipeline) {

@@ -1,8 +1,0 @@
-* remote origin
-  Fetch URL: git@gitlab.com:silentice1534/p-bud.git
-  Push  URL: git@gitlab.com:silentice1534/p-bud.git
-  HEAD branch: master
-  Remote branch:
-    master tracked
-  Local ref configured for 'git push':
-    master pushes to master (up to date)
