@@ -5,7 +5,8 @@
   "main": "init.js",
   "scripts": {
     "commit": "node commit.js",
-    "lint:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix"
+    "lint:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix",
+    "lint:prettier": "prettier --write ."
   },
   "repository": {
     "type": "git",
@@ -57,7 +58,18 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint"
+    "*.css": [
+      "yarn lint:css"
+    ],
+    "*": [
+      "yarn lint:prettier"
+    ],
+    "*.{js,ts}": [
+      "eslint --fix"
+    ],
+    "*.vue": [
+      "vue-cli-service lint"
+    ]
   },
   "dependencies": {}
 }

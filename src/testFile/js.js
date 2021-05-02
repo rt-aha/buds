@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {getToken} from './utils/auth';
-import {formatResponse} from './utils/formatResponse';
+import { getToken } from './utils/auth';
+import { formatResponse } from './utils/formatResponse';
 import interceptor from './utils/interceptor';
 import validate from './utils/validate';
 

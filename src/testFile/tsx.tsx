@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import dayjs from 'dayjs';
-import {getBrief} from '@/utils/tools';
-import {pipelineStatus} from '@/utils/converted';
+import { getBrief } from '@/utils/tools';
+import { pipelineStatus } from '@/utils/converted';
 
-const PipelineListItem = ({item, className}: {item: any; className: string}) => {
+const PipelineListItem = ({ item, className }: { item: any; className: string }) => {
   return (
     <li className={className}>
       <div className="pipeline-content">
@@ -20,7 +20,7 @@ const PipelineListItem = ({item, className}: {item: any; className: string}) => 
   );
 };
 
-const StyledComp = styled(PipelineListItem).attrs({className: 'pipeline-list-item'})`
+const StyledComp = styled(PipelineListItem).attrs({ className: 'pipeline-list-item' })`
   box-sizing: border-box;
   width: 100%;
   /* margin: 10px 0; */

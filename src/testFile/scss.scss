@@ -14,8 +14,7 @@ $rwd-break-point: (tablet 768px 708px, pc 1320px 1200px);
 
 @mixin set-content-size($content-size-value) {
   .g-content {
-    // display: block;
-    display: flex;
+    display: block;
     padding: 0;
     width: 100%;
     // min-width: $content-size-value;

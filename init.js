@@ -6,8 +6,10 @@ const yaml = require('js-yaml');
 const fs = require('fs');
 
 class Repo {
-  repoInfo = {};
-  pipeline = [];
+  constructor() {
+    this.repoInfo = {};
+    this.pipeline = [];
+  }
 
   logStep() {
     let stepCount = 0;
@@ -257,7 +259,8 @@ class Repo {
       sh.exec(`cd ${repoName} && yarn add husky@latest --dev`);
       sh.exec(`cd ${repoName} && yarn husky install`);
       sh.exec(
-        `cd ${repoName} && npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'`,
+        `cd ${repoName} &&
+         npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'`,
       );
 
       const file = `./${repoName}/package.json`;

@@ -3,7 +3,9 @@ const sh = require('shelljs');
 const chalk = require('chalk');
 
 class Commit {
-  commitInfo = {};
+  constructor() {
+    this.commitInfo = {};
+  }
 
   async askMsg() {
     const ans = await inquirer.prompt([
@@ -69,9 +71,14 @@ class Commit {
 
     console.log(chalk.green.bold('Wating git ...'));
     console.log(chalk.cyan(`The full commit message:`, chalk.cyan.bold(`${commitMessage}`)));
-    sh.exec('git add .');
-    sh.exec(`git commit -m ${commitMessage}`);
-    sh.exec(`git push origin ${target}`);
+
+    try {
+      sh.exec('git add .');
+      sh.exec(`git commit -m ${commitMessage}`);
+      sh.exec(`git push origin ${target}`);
+    } catch (e) {
+      console.log('e...', e);
+    }
   }
 }
 

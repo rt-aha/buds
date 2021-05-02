@@ -4,12 +4,7 @@
     "stage": "test_build",
     "image": "node",
     "before_script": ["yarn add @vue/cli-service"],
-    "script": [
-      "echo \"---test stage---\"",
-      "yarn test:unit",
-      "echo \"---build stage---\"",
-      "yarn build"
-    ],
+    "script": ["echo \"---test stage---\"", "yarn test:unit", "echo \"---build stage---\"", "yarn build"],
     "artifacts": {
       "paths": ["./dist"]
     }
