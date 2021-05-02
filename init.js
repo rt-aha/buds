@@ -212,7 +212,7 @@ class Repo {
           commit: 'node commit.js',
           'lint:style': 'stylelint src/**/*.scss src/**/*.css --syntax scss --fix',
           'lint:prettier': 'prettier --write .',
-          'lint:js.ts': 'lint',
+          'lint:js.ts': 'eslint --fix',
         };
 
         devDep = {
@@ -291,7 +291,7 @@ class Repo {
         pkg['lint-staged'] = {
           '*.{scss,css}': ['yarn lint:style'],
           '*': ['yarn lint:prettier'],
-          '*.{js,ts}': ['eslint --fix'],
+          '*.{js,ts}': ['yarn lint:js.ts'],
           '*.vue': ['vue-cli-service lint'],
         };
 
