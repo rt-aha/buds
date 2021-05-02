@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://gitlab.com/silentice1534/p-bud/compare/v1.4.0...v1.5.0) (2021-05-02)
+
+
+### Features
+
+* chore :sparkles: ([4bfa5fb](https://gitlab.com/silentice1534/p-bud/commit/4bfa5fbe55334a6823dd26c2d9a2059584df29ad))
+* delete .git/hooks :sparkles: ([0de73c7](https://gitlab.com/silentice1534/p-bud/commit/0de73c7ba1373b756c2bb3a061bd115c10606a5c))
+* remove test repo :sparkles: ([4fe44fb](https://gitlab.com/silentice1534/p-bud/commit/4fe44fbf14fd063eafd53be447ff787311d66f45))
+* remove test rpo :sparkles: ([02ce84f](https://gitlab.com/silentice1534/p-bud/commit/02ce84f4857983abdb60de07cb7928c14da08628))
+* test :sparkles: ([028b6e0](https://gitlab.com/silentice1534/p-bud/commit/028b6e08d2436428c0d706ef2d6586b1c98b1493))
+* update devDep :sparkles: ([6749cac](https://gitlab.com/silentice1534/p-bud/commit/6749cace4b9894c55400db6e6114b93bd8b99fbf))
+
 ## [1.4.0](https://gitlab.com/silentice1534/p-bud/compare/v1.3.0...v1.4.0) (2021-05-02)
 
 ### Features
