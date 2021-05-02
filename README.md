@@ -15,7 +15,7 @@ REQUIRED:
 - [x] .browserslintrc
 - [x] .editorconfig
 - [x] husky 安裝 和 commit lint 寫進 package
-- [ ] version-stable
+- [x] version-stable
 - [x] eslint pre-commit
 - [x] gitlab-ci.yml
 - [x] addon: a node server(進專案拉 repo，然後移除該資料夾.git)
