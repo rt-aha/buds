@@ -58,14 +58,6 @@
       "pre-applypatch": "echo \"[Husky] pre-applypatch\"",
       "post-applypatch": "echo \"[Husky] post-applypatch\"",
       "pre-commit": "echo \"[Husky] pre-commit\""
-    },
-    "lint-staged": {
-      "*.js": [
-        "echo \"pre commit js\""
-      ],
-      "*.vue": [
-        "echo \"pre commit vue\""
-      ]
     }
   },
   "dependencies": {
