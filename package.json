@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "node commit.js",
     "eslint": "eslint --init",
-    "fix:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix"
+    "fix:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix",
+    "husky": "husky install"
   },
   "repository": {
     "type": "git",
