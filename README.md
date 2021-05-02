@@ -16,7 +16,7 @@ REQUIRED:
 - [x] .editorconfig
 - [x] husky 安裝 和 commit lint 寫進 package
 - [ ] version-stable
-- [ ] eslint pre-commit
+- [x] eslint pre-commit
 - [x] gitlab-ci.yml
 - [x] addon: a node server(進專案拉 repo，然後移除該資料夾.git)
 - [ ] 生成 README.ME(動態生成，初始化專案有配置的內容)
