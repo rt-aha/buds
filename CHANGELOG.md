@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://gitlab.com/silentice1534/p-bud/compare/v1.1.0...v1.2.0) (2021-05-02)
+
+### Features
+
+- commit :sparkles: ([95d4360](https://gitlab.com/silentice1534/p-bud/commit/95d4360fe31a9d28df80e2fecc1a57b83de26471))
+
 ## 1.1.0 (2021-05-02)
 
 ### Features
