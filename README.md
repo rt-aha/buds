@@ -30,9 +30,7 @@ https://github.com/conventional-changelog/commitlint
 
 ```
 yarn add -D @commitlint/config-conventional @commitlint/cli
-yarn add -D husky@6.0.0
-yarn husky install
-npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+yarn add -D husky@4.3.8
 ```
 
 ## stylelint
