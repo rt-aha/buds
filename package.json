@@ -5,7 +5,7 @@
   "main": "init.js",
   "scripts": {
     "commit": "node commit.js",
-    "lint:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix",
+    "lint:style": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix",
     "lint:prettier": "prettier --write ."
   },
   "repository": {
@@ -58,8 +58,8 @@
     }
   },
   "lint-staged": {
-    "*.css": [
-      "yarn lint:css"
+    "*.{scss,css}": [
+      "yarn lint:style"
     ],
     "*": [
       "yarn lint:prettier"
