@@ -20,7 +20,7 @@ class Commit {
         name: 'type',
         message: 'Select a type:',
         choices: [
-          'feat (新功能)',
+          'feat (功能)',
           'style (樣式)',
           'fix (修bug)',
           'chore (雜事)',

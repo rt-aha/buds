@@ -5,7 +5,7 @@
   "main": "init.js",
   "scripts": {
     "commit": "node commit.js",
-    "release": "standard-version && git push --follow-tags origin master",
+    "release": "standard-version && git push origin master && git push --follow-tags origin master",
     "lint:style": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix",
     "lint:prettier": "prettier --write .",
     "lint:js.ts": "eslint --fix"
