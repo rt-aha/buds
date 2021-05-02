@@ -58,12 +58,10 @@
     },
     "lint-staged": {
       "*.js": [
-        "echo \"pre commit js\"",
-        "git add"
+        "echo \"pre commit js\""
       ],
       "*.vue": [
-        "echo \"pre commit vue\"",
-        "git add"
+        "echo \"pre commit vue\""
       ]
     }
   },
