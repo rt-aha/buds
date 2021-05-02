@@ -14,7 +14,7 @@ REQUIRED:
 - [x] stylelint
 - [x] .browserslintrc
 - [x] .editorconfig
-- [ ] husky 安裝 和 commit lint 寫進 package
+- [x] husky 安裝 和 commit lint 寫進 package
 - [ ] version-stable
 - [ ] eslint pre-commit
 - [x] gitlab-ci.yml
@@ -51,4 +51,3 @@ package.json script 下新增
 
 - lint 作為option
 - 後續更新可能會遇到問題
-
