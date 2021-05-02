@@ -161,7 +161,6 @@ class Repo {
       }
 
       // commit.js
-      //先安裝一些東西
       sh.cp('commit.js', `./${repoName}`);
       sh.cp('commitlint.config.js', `./${repoName}`);
     };
@@ -173,32 +172,10 @@ class Repo {
       } else {
         step5Title = `add ${libs.join(', ')} libs and push to origin repository.`;
       }
-      log(step5Title);
 
       sh.exec(
         `cd ${repoName} && git add . && git commit -m ":tada: init: create ${template} template" && git push origin master`,
       );
-    };
-
-    const addLibsToDep = () => {
-      log('add selected Libaray to package.json/dependencies.');
-      const file = `./${repoName}/package.json`;
-      jsonfile.readFile(file, function (err, pkg) {
-        let { dependencies: dep } = pkg;
-
-        libs.forEach((libName) => {
-          dep = {
-            ...dep,
-            [`@indigoichigo/${libName}`]: `https://gitlab.com/p-libs/${libName}.git`,
-          };
-        });
-
-        pkg.dependencies = dep;
-
-        jsonfile.writeFile(file, pkg, function (e) {
-          if (e) console.error(e);
-        });
-      });
     };
 
     const modifyPackageFile = () => {
