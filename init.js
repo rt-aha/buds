@@ -154,11 +154,14 @@ class Repo {
       sh.cp('-R', '.vscode', `./${repoName}`);
       sh.cp('.editorconfig', `./${repoName}`);
       sh.cp('.browserslistrc', `./${repoName}`);
-      sh.cp('.prettierrc.js', `./${repoName}`);
       sh.cp('.stylelintrc.js', `./${repoName}`);
-      sh.cp('.prettierignore', `./${repoName}`);
 
-      if (template.includes('ts')) {
+      if (template.indexOf('node') === -1) {
+        sh.cp('.prettierrc.js', `./${repoName}`);
+        sh.cp('.prettierignore', `./${repoName}`);
+      }
+
+      if (template.indexOf('ts') > -1) {
         sh.cp('tsconfig.json', `./${repoName}`);
         sh.cp('tsconfig.extend.json', `./${repoName}`);
       } else {
@@ -225,9 +228,24 @@ class Repo {
           };
         }
 
+        let stylelintPlugin = {};
+
+        if (!is.node) {
+          stylelintPlugin = {
+            stylelint: '^13.13.0',
+            'stylelint-config-prettier': '^8.0.2',
+            'stylelint-config-sass-guidelines': '^8.0.0',
+            'stylelint-config-standard': '^22.0.0',
+            'stylelint-no-unsupported-browser-features': '^4.1.4',
+            'stylelint-order': '^4.1.0',
+            'stylelint-scss': '^3.19.0',
+          };
+        }
+
         devDep = {
           ...devDep,
           ...eslintPlugin,
+          ...stylelintPlugin,
           '@commitlint/cli': '^12.1.1',
           '@commitlint/config-conventional': '^12.1.1',
           '@typescript-eslint/eslint-plugin': '^4.22.0',
@@ -248,13 +266,6 @@ class Repo {
           prettier: '^2.2.1',
           shelljs: '^0.8.4',
           'standard-version': '^9.2.0',
-          stylelint: '^13.13.0',
-          'stylelint-config-prettier': '^8.0.2',
-          'stylelint-config-sass-guidelines': '^8.0.0',
-          'stylelint-config-standard': '^22.0.0',
-          'stylelint-no-unsupported-browser-features': '^4.1.4',
-          'stylelint-order': '^4.1.0',
-          'stylelint-scss': '^3.19.0',
           typescript: '^4.2.4',
           'write-json-file': '^4.3.0',
         };
@@ -300,14 +311,11 @@ class Repo {
     };
 
     const genEslintrcFile = () => {
+      log(`generate .eslintrc.js file`);
       const initEslint = require('./initEslintrc');
 
       let cloneInitEslint = JSON.parse(JSON.stringify(initEslint));
       let { env, parser, extends: exts } = cloneInitEslint;
-
-      const fs = require('fs');
-      // const jsonfile = require('jsonfile');
-
       const plugins = [];
 
       const handleEnv = () => {
@@ -361,7 +369,7 @@ class Repo {
         extends: exts,
       };
 
-      cloneInitEslint = JSON.stringify(cloneInitEslint);
+      cloneInitEslint = JSON.stringify(cloneInitEslint, null, 2);
 
       fs.writeFile(`./${repoName}/.eslintrc.js`, `module.exports = ${cloneInitEslint}`, (err) => {
         if (err) {
