@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://gitlab.com/silentice1534/p-bud/compare/v1.5.1...v1.6.0) (2021-05-03)
+
+
+### Features
+
+* generate eslintrc automatically and install adapt devpendencies :sparkles: ([54027d4](https://gitlab.com/silentice1534/p-bud/commit/54027d4bc71ed1a18bacd74482d8c62baedcb6da))
+
 ### [1.5.1](https://gitlab.com/silentice1534/p-bud/compare/v1.5.0...v1.5.1) (2021-05-03)
 
 
