@@ -112,6 +112,7 @@ class Repo {
       gitlabCi,
       addNodeServer,
     } = this.repoInfo;
+
     const createProjet = () => {
       log(`create a project named ${repoName}`);
       sh.exec(
@@ -156,22 +157,12 @@ class Repo {
         sh.cp('jsconfig.json', `./${repoName}`);
       }
 
-      if (!template.indexOf('vue') && !template.indexOf('react')) {
-        sh.cp('.eslintrc.js', `./${repoName}`);
-      }
-
       // commit.js
       sh.cp('commit.js', `./${repoName}`);
       sh.cp('commitlint.config.js', `./${repoName}`);
     };
     const pushSetupRepo = () => {
       log('push to repository');
-      let step5Title = '';
-      if (libs.length === 0) {
-        step5Title = 'push to origin repository.';
-      } else {
-        step5Title = `add ${libs.join(', ')} libs and push to origin repository.`;
-      }
 
       sh.exec(
         `cd ${repoName} && git add . && git commit -m ":tada: init: create ${template} template" && git push origin master`,
@@ -268,17 +259,107 @@ class Repo {
 
         fs.writeFile('.gitlab-ci.yml', ymlFile, function (err) {
           sh.exec(`mv .gitlab-ci.yml ./${repoName}`);
+          if (err) console.error(err);
         });
       } catch (e) {
         console.log(e);
       }
     };
 
+    const genEslintrcFile = () => {
+      const initEslint = require('./initEslintrc');
+
+      let cloneInitEslint = JSON.parse(JSON.stringify(initEslint));
+      let { env, parser, extends: exts } = cloneInitEslint;
+
+      const fs = require('fs');
+      // const jsonfile = require('jsonfile');
+
+      const template = 'vue2-webpack.js';
+
+      const is = {
+        vue: template.indexOf('vue') > -1,
+        react: template.indexOf('react') > -1,
+        ts: template.indexOf('ts') > -1,
+        node: template.indexOf('node') > -1,
+        mpa: template.indexOf('mpa') > -1,
+      };
+
+      const plugins = [];
+
+      const handleEnv = () => {
+        // mpa only add browser,
+        // node only add node,
+        // others(vue, react...etc) add both browser and node(because it may used in SSR);
+        if (!is.mpa) {
+          env = {
+            ...env,
+            node: true,
+          };
+        }
+
+        if (!is.node) {
+          env = {
+            ...env,
+            browser: true,
+          };
+        }
+      };
+
+      const handleFramework = () => {
+        if (is.vue) {
+          exts.push('plugin:vue/essential');
+          plugins.push('vue');
+        }
+
+        if (is.react) {
+          exts.push('plugin:react/essential');
+          plugins.push('react');
+        }
+      };
+
+      const handleTypescript = () => {
+        if (is.ts) {
+          exts.push('plugin:@typescript-eslint/recommended');
+          plugins.push('@typescript-eslint');
+          parser = '@typescript-eslint/parser';
+        }
+      };
+
+      handleEnv();
+      handleFramework();
+      handleTypescript();
+
+      cloneInitEslint = {
+        ...cloneInitEslint,
+        plugins,
+        env,
+        parser,
+        extends: exts,
+      };
+
+      cloneInitEslint = JSON.stringify(cloneInitEslint);
+
+      fs.writeFile(`./${repoName}/.eslintrc.js`, `module.exports = ${cloneInitEslint}`, (err) => {
+        if (err) {
+          return console.log(err);
+        }
+        console.log('The file was saved!');
+      });
+    };
+
     const createNodeServer = () => {
       log('create a node mock server.');
-      sh.exec(`cd ${repoName} && git clone git@gitlab.com:p-template/node.git`);
-      sh.exec(`cd ${repoName} && mv node nodeMockServer`);
-      sh.exec(`cd ${repoName}/nodeMockServer && rm -rf .git`);
+      console.log(1);
+      sh.exec(`git clone git@gitlab.com:p-template/node.git`);
+      console.log(2);
+      sh.exec(`mv node nodeMockServer`);
+      console.log(3);
+      sh.exec(`cd nodeMockServer && rm -f .git`);
+      console.log(4);
+      sh.cp('-R', 'nodeMockServer', `./${repoName}`);
+      console.log(5);
+      sh.rm('-rf', 'nodeMockServer');
     };
 
     this.pipeline.push(createProjet);
@@ -295,6 +376,8 @@ class Repo {
     if (addNodeServer) {
       this.pipeline.push(createNodeServer);
     }
+
+    this.pipeline.push(genEslintrcFile);
 
     this.pipeline.push(modifyPackageFile);
     this.pipeline.push(pushSetupRepo);
