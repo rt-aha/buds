@@ -32,7 +32,7 @@ class Repo {
       {
         type: 'input',
         name: 'repoBelongTo',
-        message: 'Repository account/group name:',
+        message: 'Repository account',
         default: 'silentice1534',
       },
       {
@@ -112,6 +112,14 @@ class Repo {
       gitlabCi,
       addNodeServer,
     } = this.repoInfo;
+
+    const is = {
+      vue: template.indexOf('vue') > -1,
+      react: template.indexOf('react') > -1,
+      ts: template.indexOf('ts') > -1,
+      node: template.indexOf('node') > -1,
+      mpa: template.indexOf('mpa') > -1,
+    };
 
     const createProjet = () => {
       log(`create a project named ${repoName}`);
@@ -193,8 +201,33 @@ class Repo {
           'lint:js.ts': 'eslint --fix',
         };
 
+        let eslintPlugin = {};
+
+        if (is.vue) {
+          eslintPlugin = {
+            ...eslintPlugin,
+            'eslint-plugin-vue': '^7.9.0',
+          };
+        }
+
+        if (is.react) {
+          eslintPlugin = {
+            ...eslintPlugin,
+            'eslint-plugin-react': '^7.23.2',
+          };
+        }
+
+        if (is.ts) {
+          eslintPlugin = {
+            ...eslintPlugin,
+            '@typescript-eslint/eslint-plugin': '^4.22.0',
+            '@typescript-eslint/parser': '^4.22.0',
+          };
+        }
+
         devDep = {
           ...devDep,
+          ...eslintPlugin,
           '@commitlint/cli': '^12.1.1',
           '@commitlint/config-conventional': '^12.1.1',
           '@typescript-eslint/eslint-plugin': '^4.22.0',
@@ -275,16 +308,6 @@ class Repo {
       const fs = require('fs');
       // const jsonfile = require('jsonfile');
 
-      const template = 'vue2-webpack.js';
-
-      const is = {
-        vue: template.indexOf('vue') > -1,
-        react: template.indexOf('react') > -1,
-        ts: template.indexOf('ts') > -1,
-        node: template.indexOf('node') > -1,
-        mpa: template.indexOf('mpa') > -1,
-      };
-
       const plugins = [];
 
       const handleEnv = () => {
@@ -344,21 +367,15 @@ class Repo {
         if (err) {
           return console.log(err);
         }
-        console.log('The file was saved!');
       });
     };
 
     const createNodeServer = () => {
       log('create a node mock server.');
-      console.log(1);
       sh.exec(`git clone git@gitlab.com:p-template/node.git`);
-      console.log(2);
       sh.exec(`mv node nodeMockServer`);
-      console.log(3);
-      sh.exec(`cd nodeMockServer && rm -f .git`);
-      console.log(4);
+      sh.exec(`cd nodeMockServer && rm -rf .git`);
       sh.cp('-R', 'nodeMockServer', `./${repoName}`);
-      console.log(5);
       sh.rm('-rf', 'nodeMockServer');
     };
 
