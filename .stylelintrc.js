@@ -93,6 +93,7 @@ const stylelintConfig = {
     'selector-max-compound-selectors': null,
     'scss/at-import-partial-extension-blacklist': null,
     'value-no-vendor-prefix': null,
+    'declaration-empty-line-before': 'never',
   },
 };
 

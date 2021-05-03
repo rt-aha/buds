@@ -253,7 +253,6 @@ class Repo {
           'babel-eslint': '^10.1.0',
           chalk: '^4.1.1',
           eslint: '^7.2.0',
-          'eslint-config-airbnb': '18.2.1',
           'eslint-config-prettier': '^8.3.0',
           'eslint-plugin-import': '^2.22.1',
           'eslint-plugin-jsx-a11y': '^6.4.1',
@@ -287,6 +286,7 @@ class Repo {
         pkg.dependencies = dep;
         pkg.devDependencies = devDep;
         pkg.scripts = scripts;
+        pkg.name = repoName;
 
         jsonfile.writeFile(file, pkg, function (e) {
           if (e) console.error(e);
