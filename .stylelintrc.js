@@ -94,6 +94,8 @@ const stylelintConfig = {
     'scss/at-import-partial-extension-blacklist': null,
     'value-no-vendor-prefix': null,
     'declaration-empty-line-before': 'never',
+    'selector-max-id': null,
+    'selector-no-qualifying-type': null,
   },
 };
 

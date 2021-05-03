@@ -2,7 +2,7 @@ module.exports = {
   env: {
     es2021: true,
   },
-  extends: ['eslint:recommended', 'plugin:prettier/recommended'],
+  extends: ['eslint:recommended'],
   parserOptions: {
     ecmaVersion: 12,
     sourceType: 'module',
@@ -16,6 +16,7 @@ module.exports = {
     'import/no-self-import': 'off',
     'max-len': 'off',
     'import/prefer-default-export': 'off',
+    'prettier/prettier': 'off',
   },
   parser: '',
 };

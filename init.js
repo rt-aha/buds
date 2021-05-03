@@ -209,7 +209,8 @@ class Repo {
         if (is.vue) {
           eslintPlugin = {
             ...eslintPlugin,
-            'eslint-plugin-vue': '^7.9.0',
+            'eslint-plugin-prettier': '^3.3.1',
+            'eslint-plugin-vue': '^6.2.2',
           };
         }
 
@@ -339,6 +340,7 @@ class Repo {
       const handleFramework = () => {
         if (is.vue) {
           exts.push('plugin:vue/essential');
+          exts.push('@vue/prettier');
           plugins.push('vue');
         }
 
