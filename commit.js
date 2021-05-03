@@ -73,7 +73,6 @@ class Commit {
     // console.log(chalk.cyan(`The full commit message:`, chalk.cyan.bold(`${commitMessage}`)));
 
     try {
-      sh.exec('yarn lint:prettier --output /dev/null');
       sh.exec('git add .');
       sh.exec(`git commit -m ${commitMessage}`);
       sh.exec(`git push origin ${target}`);

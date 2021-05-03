@@ -288,7 +288,7 @@ class Repo {
         pkg.scripts = scripts;
         pkg.name = repoName;
 
-        jsonfile.writeFile(file, pkg, function (e) {
+        jsonfile.writeFile(file, pkg, { spaces: 2 }, function (e) {
           if (e) console.error(e);
         });
       });
