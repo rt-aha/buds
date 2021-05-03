@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://gitlab.com/silentice1534/p-bud/compare/v1.5.0...v1.5.1) (2021-05-03)
+
+
+### Bug Fixes
+
+* add a node mock server as a folder, not a project :bug: ([774ec5c](https://gitlab.com/silentice1534/p-bud/commit/774ec5cb30e7b0778c2702bf290c07e93cdc4e62))
+
 ## [1.5.0](https://gitlab.com/silentice1534/p-bud/compare/v1.4.0...v1.5.0) (2021-05-02)
 
 
