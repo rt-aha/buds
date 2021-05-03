@@ -279,7 +279,6 @@ class Repo {
         pkg['lint-staged'] = {
           '*.{scss,css}': ['yarn lint:style'],
           '*.{js,ts}': ['yarn lint:js.ts'],
-          '*.vue': ['vue-cli-service lint'],
           '*.{html,css,sccc,js,jsx,tsx,vue}': ['yarn lint:prettier'],
         };
 
