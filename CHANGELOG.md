@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://gitlab.com/silentice1534/p-bud/compare/v1.6.1...v1.7.0) (2021-05-04)
+
+
+### Features
+
+* allow to create vue2-webpack-js template :sparkles: ([2c4b8cb](https://gitlab.com/silentice1534/p-bud/commit/2c4b8cb68c1e74f39ffe036a71ed620aa418fe4a))
+* let libs' scss and network set as default library :sparkles: ([df81413](https://gitlab.com/silentice1534/p-bud/commit/df814136609de5a2a988cc14ab9dd87987adb7d0))
+* seperate template to two part - 1)frontend template and 2)node :sparkles: ([d693a7b](https://gitlab.com/silentice1534/p-bud/commit/d693a7b2d5de94e9f235562b4b95fc9fc330bb0b))
+* test :sparkles: ([c61630e](https://gitlab.com/silentice1534/p-bud/commit/c61630ec3abc9f8340177a2c4d83330c9320b3da))
+* test :sparkles: ([9d5f9bf](https://gitlab.com/silentice1534/p-bud/commit/9d5f9bf5bcd92d837066a609fb9821255fb10854))
+* tets :sparkles: ([f98567f](https://gitlab.com/silentice1534/p-bud/commit/f98567f76c12e1d968d314cffdd00b5336ae373d))
+
+
+### Bug Fixes
+
+* remove eslint-airbnb dependency and adjust stylelint config :bug: ([da8223c](https://gitlab.com/silentice1534/p-bud/commit/da8223cd1bc69b62674e5623521c965475c2a9b5))
+
 ### [1.6.1](https://gitlab.com/silentice1534/p-bud/compare/v1.6.0...v1.6.1) (2021-05-03)
 
 ## [1.6.0](https://gitlab.com/silentice1534/p-bud/compare/v1.5.1...v1.6.0) (2021-05-03)
