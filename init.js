@@ -77,12 +77,12 @@ class Repo {
           {
             name: 're-ui',
           },
-          {
-            name: 'scss',
-          },
-          {
-            name: 'network',
-          },
+          // {
+          //   name: 'scss',
+          // },
+          // {
+          //   name: 'network',
+          // },
         ],
       },
       {
@@ -190,6 +190,8 @@ class Repo {
           libs.forEach((libName) => {
             dep = {
               ...dep,
+              '@indigoichigo/scss': 'https://gitlab.com/p-libs/scss.git',
+              '@indigoichigo/network': 'https://gitlab.com/p-libs/network.git',
               [`@indigoichigo/${libName}`]: `https://gitlab.com/p-libs/${libName}.git`,
             };
           });
