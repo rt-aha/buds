@@ -69,34 +69,38 @@ class Repo {
           'node',
         ],
       },
-      {
-        type: 'checkbox',
-        message: 'Select librarys',
-        name: 'libs',
-        choices: [
-          {
-            name: 're-ui',
-          },
-          // {
-          //   name: 'scss',
-          // },
-          // {
-          //   name: 'network',
-          // },
-        ],
-      },
-      {
-        type: 'confirm',
-        name: 'gitlabCi',
-        message: 'Add on: create .gitlab-ci.yml ?',
-      },
-      {
-        type: 'confirm',
-        name: 'addNodeServer',
-        message: 'Add on: a node server ?',
-      },
     ]);
     this.repoInfo = ans;
+
+    if (this.repoInfo.template !== 'node') {
+      const ans2 = await inquirer.prompt([
+        {
+          type: 'checkbox',
+          message: 'Select librarys',
+          name: 'libs',
+          choices: [
+            {
+              name: 're-ui',
+            },
+          ],
+        },
+        {
+          type: 'confirm',
+          name: 'gitlabCi',
+          message: 'Add on: create .gitlab-ci.yml ?',
+        },
+        {
+          type: 'confirm',
+          name: 'addNodeServer',
+          message: 'Add on: a node server ?',
+        },
+      ]);
+
+      this.repoInfo = {
+        ...ans,
+        ...ans2,
+      };
+    }
   }
 
   create() {
@@ -419,4 +423,5 @@ class Repo {
 }
 
 const repo = new Repo();
+// repo.askInfo();
 repo.askInfo().then(() => repo.create());
