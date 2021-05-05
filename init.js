@@ -217,6 +217,7 @@ class Repo {
             ...eslintPlugin,
             'eslint-plugin-prettier': '^3.3.1',
             'eslint-plugin-vue': '^6.2.2',
+            '@vue/eslint-config-prettier': '^6.0.0',
           };
         }
 
