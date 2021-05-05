@@ -204,7 +204,7 @@ class Repo {
         scripts = {
           ...scripts,
           commit: 'node commit.js',
-          release: 'standard-version && git push --follow-tags origin master && && git add .',
+          release: 'standard-version && git push --follow-tags origin master && git add .',
           'lint:style': 'stylelint src/**/*.scss src/**/*.css --syntax scss --fix',
           'lint:prettier': 'prettier --write .',
           'lint:js.ts': 'eslint --fix',

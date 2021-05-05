@@ -46,7 +46,7 @@ yarn add -D stylelint-no-unsupported-browser-features
 ```
 
 package.json script 下新增
-`"fix:css": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix"`
+`"lint:style": "stylelint src/**/*.scss src/**/*.css --syntax scss --fix"`
 
 ## 可能會遇到的問題
 
