@@ -27,7 +27,6 @@ class Repo {
         type: 'repoToken',
         name: 'repoToken',
         message: 'Repository token:',
-        default: 'Em_rZ9kRgTVr6uVxzz6K',
       },
       {
         type: 'input',
